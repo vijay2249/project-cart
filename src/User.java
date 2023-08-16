@@ -11,7 +11,7 @@ public class User{
     private List<Product> cart;
     private List<Offer> offers;
     private List<Double> history;
-    private boolean isAdmin = false;
+    private boolean isAdmin;
 
     User(String username, String password){
         this.username = username;
@@ -19,7 +19,13 @@ public class User{
         this.offers = new ArrayList<>();
         this.cart = new ArrayList<>();
         this.history = new ArrayList<>();
+        this.isAdmin = false;
         this.checkAdmin();
+    }
+
+    @Override
+    public String toString(){
+        return "[+] Username: " + this.username + "\n";
     }
 
     public boolean auth(String username, String password){

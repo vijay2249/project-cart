@@ -8,18 +8,22 @@ public class Shop{
 
     private static User currentUser = null;
 
-
-    private static void authUser(String username, String password){
-        for(User u : Shop.users){
-            if(u.getUsername().equals(username.trim()) && u.getPassword().equals(password.trim())){
-                Shop.currentUser = u;
-                System.out.println("[+] User - " + u.getUsername() + " login success");
-                return;
-            }
-        }
-        Errors.userLoginInvalidError();
-        //System.out.println(Errors.userLoginInvalidError);
+    private static void printInfo(String info){
+        System.out.println(info);
     }
+
+
+//    private static void authUser(String username, String password){
+//        for(User u : Shop.users){
+//            if(u.getUsername().equals(username.trim()) && u.getPassword().equals(password.trim())){
+//                Shop.currentUser = u;
+//                System.out.println("[+] User - " + u.getUsername() + " login success");
+//                return;
+//            }
+//        }
+//        Errors.userLoginInvalidError();
+//        //System.out.println(Errors.userLoginInvalidError);
+//    }
 
     private static void authUser(User user){
         String username = user.getUsername().trim();
@@ -27,6 +31,7 @@ public class Shop{
         for(User u : Shop.users){
             if(u.getUsername().equals(username) && u.getPassword().equals(pass)){
                 Shop.currentUser = u;
+                System.out.println("[+] User - " + user.getUsername() + " - Login success");
                 return;
             }
         }
@@ -92,6 +97,7 @@ public class Shop{
             System.out.println(Errors.userLoginInvalidError);
             return false;
         }
+        printInfo(product.getName() + " added to cart");
         return Shop.currentUser.addToCart(product);
     }
 
@@ -100,6 +106,7 @@ public class Shop{
         String userType = Shop.currentUser.getUserType();
         if(userType.equals("Admin")){
             Shop.products.add(product);
+            System.out.println("[+] Product [" + product.getName() + "] added in shop products.");
             return true;
         }
         System.out.println(Errors.invalidFuncCallError);
@@ -110,6 +117,7 @@ public class Shop{
         String userType = Shop.currentUser.getUserType();
         if(userType.equals("Admin")){
             Shop.products.remove(product);
+            System.out.println("[!] Product [" + product.getName() + "] deleted from products.");
             return true;
         }
         System.out.println(Errors.invalidFuncCallError);
@@ -120,6 +128,7 @@ public class Shop{
         String userType = Shop.currentUser.getUserType();
         if(userType.equals("Admin")){
             Shop.offers.add(offer);
+            System.out.println("[+] New offer [" + offer.getName() + "] added");
             return true;
         }
         Errors.invalidFuncCallError();
@@ -146,17 +155,31 @@ public class Shop{
         }
 
         authUser(adminUser); //add admin user for adding products and offers in the shop...
+        System.out.println(Shop.currentUser);
         Product headset = new Product("Headset", 250);
         Product laptop = new Product("Laptop", 3000);
         Product mobile = new Product("Mobile", 3000);
+
+        System.out.println(Shop.products);
 
         Shop.newProduct(headset);
         Shop.newProduct(laptop);
 
         authUser(user);
         Shop.newProduct(mobile); //should return error
+        String initalOutput = """
+                Choose one of the following
+                1. List products
+                2. Add item to cart
+                3. Remove items from cart
+                4. apply coupons
+                5. View user cart
+                6. Payment
+                7. Exit
+                """;
+        System.out.println(initalOutput);
 
-        authUser("user2", "pass2"); //add user2
+        authUser(user2); //add user2
 
 
 
